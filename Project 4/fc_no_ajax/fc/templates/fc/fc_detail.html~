@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="header">
+  <a href="/"> Back to Index </a>
+</div>
+
+  <form method="post" action="/set/card/{{object.cardID}}/delete_card/">{% csrf_token %}
+  <input type="submit" value="click!">
+  </form>
+
+<div class="detail">
+  <form method="post" action="update/">{% csrf_token %}
+  <div class="text">
+   <label for="slug">order</label>
+    <input type="text" name="order" id="order" value="{{ object.cardID }}">
+  </div>
+  <textarea name="front" id="front">{{ object.front }}</textarea>
+  <textarea name="back" id="back">{{ object.back }}</textarea>
+  <input class="submit" type="submit" value="update note">
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+from django.core.context_processors import csrf
+from models import cardTable
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseServerError
+from django.shortcuts import render
+
+def list_card(request):
+	cardList = cardTable.objects.order_by('cardID')
+	return render(request, 'fc/test.html', {'card_list': cardList,})
+
+def show_card(request, cardID):
+	return render(request, 'fc/fc_detail.html', {'object': cardTable.objects.get(cardID=cardID),})
+
+def delete_card(request, cardID):
+	deleteMe = cardTable.objects.get(cardID = cardID)
+	deleteMe.delete()
+	return HttpResponsePermanentRedirect('/set/')
+
+def create_card(request):
+	if request.method == "POST":
+		post = request.POST.copy()
+		if post.has_key('order') and post.has_key('front') and post.has_key('back'):
+			order = int(post['order'])  #later must check for int
+			if cardTable.objects.filter(cardID=order).count() == 0:
+				front = post['front']
+				back = post['back']
+				new_flashcard = cardTable.objects.create(cardID=order, setID=47, front=front, back=back)
+				return HttpResponsePermanentRedirect('/set/')
+			else: error_msg = u"order already in use."
+		else: error_msg = u"Insufficient POST data (enter in forms)"
+	else: error_msg = u"No POST data sent."
+	return HttpResponseServerError(error_msg)
+
+def update_card(request, cardID):
+	if request.method == "POST":
+		post = request.POST.copy()
+		flashcard = cardTable.objects.get(cardID=cardID)
+		if post.has_key('order'):
+			print type(post['order']), post['order']
+			order = int(post['order'])
+			if flashcard.cardID != order:
+				if cardTable.objects.filter(cardID=order).count() == 0:
+					flashcard.cardID = order
+				else:
+					error_msg = u"cardID/order already taken."
+					return HttpResponseServerError(error_msg)
+		if post.has_key('title'):
+			flashcard.title = post['title']
+		if post.has_key('front'):
+			flashcard.front = post['front']
+		if post.has_key('back'):
+			flashcard.back = post['back']
+		flashcard.save()
+		return HttpResponseRedirect(flashcard.get_absolute_url())
+	else: error_msg = u"No POST data sent."
+	return HttpResponseServerError(error_msg)

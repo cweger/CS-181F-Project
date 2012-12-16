@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="new">
+  <h2> Create a new note! </h2>
+  <form method="post" action="/create/">{% csrf_token %}
+  <label for="order">Order</label>
+  <input type="text" name="order" id="order">
+  <label for="front">Front</label>
+  <input type="text" name="front" id="front">
+  <label for="back">Back</label>
+  <input type="text" name="back" id="back">
+  <input type="submit" value="click!">
+  </form>
+</div>
+<div class="list">
+  <h2> Notes </h2>
+  <ol id="notes">
+    {% for object in fc %}
+    <li><a href="{{ object.get_absolute_url }}">Front: {{ object.front }} Back: {{object.back}} Order: {{object.cardID}}</a></li>
+    {% endfor %}
+  </ol>
+</div>
+
+{% endblock %}
