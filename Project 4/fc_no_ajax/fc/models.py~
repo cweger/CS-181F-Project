@@ -20,7 +20,7 @@ class cardTable(models.Model):
     # Input:    self - the cardTable object
     # Returns:  A url unique to each card
 	def get_absolute_url(self):
-		return u"/set/card/%s/" % (self.cardID)
+		return u"/set/card/%s/" % (self.setID,self.cardID)
 	def __unicode__(self):
 		return u"fc(%s,%s)" % (self.front, self.back) #modified from u"Note(%
 

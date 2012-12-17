@@ -5,7 +5,7 @@
 </div>
 
   <form method="post" action="/set/card/{{object.cardID}}/delete_card/">{% csrf_token %}
-  <input type="submit" value="click!">
+  <input type="submit" value="Delete">
   </form>
 
 <div class="detail">

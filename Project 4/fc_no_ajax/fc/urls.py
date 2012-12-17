@@ -5,5 +5,6 @@ notes = cardTable.objects.all()
 
 urlpatterns = patterns(
     '',
+	(r'^$','fc.views.list_card'),
 	(r'^set/$','fc.views.list_card'),
 )

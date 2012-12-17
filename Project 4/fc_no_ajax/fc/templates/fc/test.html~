@@ -9,13 +9,13 @@
   <input type="text" name="front" id="front">
   <label for="back">Back</label>
   <input type="text" name="back" id="back">
-  <input type="submit" value="click!">
+  <input type="submit" value="delete">
   </form>
 </div>
 <div class="list">
   <h2> Notes </h2>
   <ol id="notes">
-    {% for object in fc %}
+    {% for object in card_list %}
     <li><a href="{{ object.get_absolute_url }}">Front: {{ object.front }} Back: {{object.back}} Order: {{object.cardID}}</a></li>
     {% endfor %}
   </ol>
