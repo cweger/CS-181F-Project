@@ -12,23 +12,16 @@ To test this module, we will primarily use the django.test module which is based
 Test Index
 1. Black Box Testing:
     1.0 Display the list page
-    1.1 Add flashcards to set
-    1.2 Delete flashcards from set
-    1.3 Modify existing flashcard within set
-    1.4 Rename and reorder flashcards within set
-    1.5 Modify an existing set contained within the user library
-    1.6 Add content to newly created sets
-
-1.7 Submit incorrect flashcard creation data (non-integer or non-unique flashcard order)
-
-1.8 Submit incorrect flashcard modification data (non-integer or non-unique order)
+    1.1 Add flashcards to a set
+    1.2 Display the detail page
+    1.3 Delete flashcards from a set
+    1.4 Series of delete and create operations
+    1.5 Modify existing flashcards within a set
 2. White Box Testing:
-    2.1 list()
-    2.2 create_fc()
-    2.3 show_fc()
-    2.4 update_fc()
-    2.5 delete_fc()
-    2.6 code coverage tests
+
+2.0 Submit incorrect flashcard creation data (non-integer or non-unique flashcard order)
+
+2.1 Submit incorrect flashcard modification data (non-integer or non-unique order)
 
 Test Descriptions
 1. Black Box Testing: In general, the black box testing will be performed by calling a series of post() and get() functions.  The final return response object will then be examined closely to make sure it matches what is expected.  A true value will be returned for a successful matching.  To make these calls, the urls must be entered in as arguments into the functions as well as any HttpRequest POST data.  While this does require basic knowledge of the url mapping scheme, the intent is to automate as closely as possible the actions of an actual user.
@@ -37,30 +30,16 @@ Test Descriptions
 
 1.1 Add flashcards to a set: This test verifies that a flashcard can be successfully added to the set.  This test will be performed by first creating a new flashcard, and then navigating back to the list page, and then opening it again and checking that the contents match what is expected.
 
-1.2 Delete flashcards from a set: This test verifies that when a flashcard is opened and deleted (and navigation is restored to the list() page), the flashcard will have disappeared from the list.
+1.2 Display the detail page: This test verifies that our system can display the details of a flashcard.
 
-1.3 Modify existing flashcards within a set: This test verifies that a flashcard’s front and back sides can be successfully modified.  It performs in an analogous manner to 1.1.
+1.3 Delete flashcards from a set: This test verifies that when a flashcard is opened and deleted (and navigation is restored to the list() page), the flashcard will have disappeared from the list.
 
-1.4 Rename and reorder flashcards within a set: This test verifies that a flashcard’s title and order can be changed.  Once again, this is verified in a process similar to 1.1.
+1.4 Series of delete and create operations:  This tests that the system can handle a series of delete and create operations, and that the resulting cardTable has the expected number of flashcards.
 
-1.5 Modify an existing set contained within the user library: The purpose of this test is to test part of the interface between the user profile page and the create/edit page.  To perform this test, a set will be opened, modified, and then opened again, and the modified contents will be checked to make sure they match what is expected.
+1.5 Modify existing flashcards within a set: This test verifies that a flashcard’s front and back sides can be successfully modified.
 
-1.6 Add content to newly created sets: The test also tests the interface between the user profile page and the create/edit set page.  It is performed like the test above except we are creating a new set instead of modifying an existing set.
+2. White Box Testing: Like black box testing, the white box testing will work by calling a series of post() and get() functions.  The following white box tests will be run:
 
-1.7 Submit incorrect flashcard creation data (non-integer non-unique flashcard cardID): This test works to see that incorrect user data causes an error to be displayed.
+2.0 Submit incorrect flashcard creation data (non-integer non-unique flashcard cardID): This test works to see that incorrect user data causes an error to be displayed.
 
-1.8 Submit incorrect flashcard modification data (non-unique flashcard cardID): This test also checks to see that an error is displayed.
-
-2. White Box Testing: Like black box testing, the white box testing will work by calling a series of post() and get() functions.  One of the primary purposes of the white box testing will be to test any code not tested in the black box testing.  Once the black box tests are complete, and the coverage.py module is run, any untested code in any of the five views will be tested by additional white box tests.  In addition, the following white box tests will be run:
-
-2.1 list(): What happens if a url is called for a set that does not exist?  What if a url is card for a set that existed at some point but has been deleted.  In both cases, a page not found error should occur.
-
-2.2 create_fc(): What happens if the cardID number entered is a non-integer.  In this case, an error should be displayed.
-
-2.3 show_fc(): What happens if the HttpRequest specifies a card that does not exist or was deleted?  In both cases a page not found error should occur.
-
-2.4 update_fc(): What happens if the cardID number entered is modified to a non-integer.  This should cause an error to be displayed.
-
-2.5 delete_fc(): What happens if a an HttpRequest is sent entered that specifies a card that does not exist should be deleted?  What if the HttpRequest specifies the deletion of an already deleted card.  In both cases, a page not found error should occur.
-
-2.6 Code Coverage tests: Any untested code should be tested by these tests.
+2.1 Submit incorrect flashcard modification data (non-unique flashcard cardID): This test also checks to see that an error is displayed.
